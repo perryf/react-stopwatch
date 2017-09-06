@@ -5,13 +5,25 @@ class Stopwatch extends Component {
   constructor() {
     super()
     this.state = {
-      counter: 0
+      counter: 0,
+      interval: null
     }
   }
 
   startTimer(e) {
+    if (!this.state.interval) {
+      this.setState({ interval: setInterval(() => {
+        this.setState({
+          counter: this.state.counter + 1
+        })
+      }, 1000)})
+    }
+  }
+
+  pauseTimer(e) {
+    clearInterval(this.state.interval)
     this.setState({
-      counter: this.state.counter + 1
+      interval: null
     })
   }
 
@@ -22,7 +34,7 @@ class Stopwatch extends Component {
         <div className="controls">
           <button>Reset</button>
           <button onClick={(e) => this.startTimer(e)}>Start</button>
-          <button>Pause</button>
+          <button onClick={(e) => this.pauseTimer(e)}>Pause</button>
         </div>
       </div>
     );
